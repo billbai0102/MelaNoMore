@@ -1,3 +1,19 @@
 # List of hyperparameters stored in a yaml file for easy access and modifying.
 hyperparameters:
   batch_size: 32
+
+  input_shape: [3, 224, 224]
+  output_classes: 2
+  dropout: 0.25
+
+  linear_1: 256
+  linear_2: 128
+  linear_3: 64
+
+  # hyperparameters for convolution layers - format: (out, kernel_size, stride, padding)
+  conv1: []
+  conv2: []
+  conv3: []
+  conv4: []
+  conv5: []
+
