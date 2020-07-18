@@ -11,9 +11,12 @@ hyperparameters:
   linear_3: 64
 
   # hyperparameters for convolution layers - format: (out, kernel_size, stride, padding)
-  conv1: []
-  conv2: []
-  conv3: []
-  conv4: []
-  conv5: []
+  conv1: [64, 3, 1, 1]
+  conv2: [128, 3, 1, 1]
+  conv3: [256, 3, 1, 1]
+  conv4: [512, 3, 1, 1]
+  conv5: [256, 3, 1, 1]
+
+  # learning rate scheduler - format: (mode, factor, patience)
+  lr_scheduler: ['min', 0.5, 10]
 
