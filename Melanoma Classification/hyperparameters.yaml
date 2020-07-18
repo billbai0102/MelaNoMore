@@ -1,6 +1,7 @@
 # List of hyperparameters stored in a yaml file for easy access and modifying.
 hyperparameters:
   batch_size: 32
+  epochs: 100
 
   input_shape: [3, 224, 224]
   output_classes: 2
