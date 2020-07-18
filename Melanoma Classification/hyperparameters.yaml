@@ -1,2 +1,3 @@
 # List of hyperparameters stored in a yaml file for easy access and modifying.
 hyperparameters:
+  batch_size: 32
