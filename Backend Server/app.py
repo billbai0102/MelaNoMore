@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+import imageIDHandler
 
 app = Flask(__name__)
 
