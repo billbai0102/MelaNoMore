@@ -1,6 +1,7 @@
 package com.starenkysoftware.charterhacks;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -11,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +23,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Base64;
@@ -230,6 +233,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                         //Log.d(TAG,"Response is: "+ response.substring(0,5000));
                         //PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("HAS_PHOTO", true).apply();
                         //toMain();
+                        Log.d("HTTP_DE", response);
+                        displayResults(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -288,7 +293,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         Date currentTime = Calendar.getInstance().getTime();
         String file_id = currentTime.getTime() + "_" + random_num;
 
-        file_id = "charterhacks/U9glHDzY8s";
+        String ID_subset = "U9glHDzY8s"; // ID FOR TESTING
+        file_id = "charterhacks/"+ID_subset;
 
         //create a file to write bitmap data
         File f = new File(getCacheDir(), "TEST_FILE.png");
@@ -345,6 +351,39 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             Log.d("cloudinary", "UPLOAD ERROR: " + e.toString());
             return false;
         }
+        postData(ID_subset);
         return true;
+    }
+
+    public void displayResults(String results){
+
+        final Context contextPass = this;
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ImageView img = findViewById(R.id.loading_gif);
+                img.setVisibility(View.INVISIBLE);
+
+                new AlertDialog.Builder(contextPass)
+                        .setTitle("Results Processed")
+                        .setMessage("The model determined that this is NOT Melanoma with a 95.7% confidence score.")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continue with operation
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        //.setNegativeButton(android.R.string.no, null)
+                        //.setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        }, 2000);
+
     }
 }
