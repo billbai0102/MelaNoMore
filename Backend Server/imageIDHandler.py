@@ -39,3 +39,4 @@ def get_url():
 
 
 get_url()
+    image.show()
