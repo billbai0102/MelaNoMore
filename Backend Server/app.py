@@ -10,7 +10,7 @@ def getResults():
     imageID = request.args.get('imageID')
 
     # Use the imageID to access cloudinary and fetch results from the model here
-
+    imageIDHandler.handleImageID(imageID)
     return "you made a request for imageID: " + imageID
 
 @app.route('/')
