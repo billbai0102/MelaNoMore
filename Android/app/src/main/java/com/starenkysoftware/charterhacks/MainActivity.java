@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         byte[] byteArray = byteArrayOutputStream .toByteArray();
 
         String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        postData(encoded);
+        //postData(encoded);
 
         String base64String = ImageUtil.convert(bitmap);
 
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://yogta.ca/cgi-bin/tester_charterhacks.py?data="+data;
+        String url ="https://446a70151a49.ngrok.io/getResults?imageID="+data;
         //String url = "https://google.ca";
 
         // Request a string response from the provided URL.
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession arg1) {
-                    if (hostname.equalsIgnoreCase("yogta.ca") || hostname.equalsIgnoreCase("api.cloudinary.com") || hostname.equalsIgnoreCase("www.google.ca") || hostname.equalsIgnoreCase("google.ca")) {    //ONLY ALLOW FROM MY DOMAIN
+                    if (hostname.equalsIgnoreCase("yogta.ca") || hostname.equalsIgnoreCase("api.cloudinary.com") || hostname.equalsIgnoreCase("446a70151a49.ngrok.io") || hostname.equalsIgnoreCase("google.ca")) {    //ONLY ALLOW FROM MY DOMAIN
                         Log.d("RFT","Allowed");
                         return true;
                     } else {
@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         return true;
     }
 
-    public void displayResults(String results){
+    public void displayResults(final String results){
 
         final Context contextPass = this;
 
@@ -368,7 +368,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
                 new AlertDialog.Builder(contextPass)
                         .setTitle("Results Processed")
-                        .setMessage("The model determined that this is NOT Melanoma with a 95.7% confidence score.")
+                        //.setMessage("The model determined that this is NOT Melanoma with a 95.7% confidence score.")
+                        .setMessage(results)
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
                         // The dialog is automatically dismissed when a dialog button is clicked.
