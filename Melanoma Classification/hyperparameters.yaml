@@ -15,27 +15,3 @@ hyperparameters:
   conv_6: [1024, 3, 2, 1]
   conv_7: [1024, 3, 1, 1]
 
-
-#  batch_size: 32
-#  epochs: 100
-#
-#  input_shape: [3, 224, 224]
-#  output_classes: 2
-#  dropout: 0.25
-#
-#  linear_1: 256
-#  linear_2: 128
-#  linear_3: 64
-#  context_size: 16
-#  gate_split: 4
-#
-#  # hyperparameters for convolution layers - format: (out, kernel_size, stride, padding)
-#  conv1: [32, 3, 1, 1]
-#  conv2: [64, 3, 1, 1]
-#  conv3: [128, 3, 1, 1]
-#  conv4: [128, 3, 1, 1]
-#  conv5: [64, 3, 1, 1]
-#
-#  # learning rate scheduler - format: (mode, factor, patience)
-#  lr_scheduler: ['min', 0.5, 10]
-
