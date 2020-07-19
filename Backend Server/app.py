@@ -27,8 +27,11 @@ def get_results():
         'class': class_to_idx[out.argmax(dim=1).item()],
         'model_out': str(out.detach().numpy()[0])
     }
-    print(out[0][0])
-    return out_json
+    prediction = 'do NOT'
+    if out_json['class'] == 'Melanoma': 
+        prediction='DO'
+    formatted_text = f'The model has determined that you {prediction} have Melanoma.'
+    return formatted_text
 
 
 @app.route('/')
