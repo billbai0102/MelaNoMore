@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         Date currentTime = Calendar.getInstance().getTime();
         String file_id = currentTime.getTime() + "_" + random_num;
 
-        file_id = "charterhacks/charter_hacks_image";
+        file_id = "charterhacks/U9glHDzY8s";
 
         //create a file to write bitmap data
         File f = new File(getCacheDir(), "TEST_FILE.png");
