@@ -4,7 +4,8 @@ import imageIDHandler
 import torch
 import numpy as np
 import NeuralNetwork
-from torchsummary import summary
+import torch
+from torch.nn import functional as F
 
 app = Flask(__name__)
 
@@ -20,13 +21,13 @@ def get_results():
     image_np = np.asarray(image).transpose(2, 0, 1)
     image_np = np.expand_dims(image_np, axis=[0])
     image_t = torch.Tensor(image_np).float()
-    out = net(image_t)
+    out = F.softmax(net(image_t))
     out_json = {
         'out': out.argmax(dim=1).item(),
         'class': class_to_idx[out.argmax(dim=1).item()],
-        'model_out': str(list(out.detach().numpy()[0]))
+        'model_out': str(out.detach().numpy()[0])
     }
-    print(str(list(out.detach().numpy()[0])))
+    print(out[0][0])
     return out_json
 
 

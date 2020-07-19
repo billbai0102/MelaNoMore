@@ -36,7 +36,3 @@ def get_url():
 
     image = Image.open("imageReceived.png")
     # image.show()
-
-
-get_url()
-    image.show()
