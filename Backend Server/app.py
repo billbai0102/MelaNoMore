@@ -10,7 +10,7 @@ from torch.nn import functional as F
 
 # instantiates flask app, sets flask to run with ngrok
 app = Flask(__name__)
-run_with_ngrok(app)
+# run_with_ngrok(app)
 
 '''
 returns model's output given the image's ID
@@ -56,4 +56,4 @@ instantiates the model and starts server with ngrok
 if __name__ == '__main__':
     net = torch.load('./model/melanoma_classification_model.pt').cuda()
     net.eval()
-    app.run()
+    app.run(debug=True)

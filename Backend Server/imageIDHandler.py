@@ -23,7 +23,7 @@ obtains image from cloudinary
 '''
 def handle_image_id(imageID):
     # constructed link with imageID
-    url = "https://res.cloudinary.com/starenkysoftware/image/upload/v1595173473/charterhacks/"+ imageID +".jpg"
+    url = "https://res.cloudinary.com/starenkysoftware/image/upload/v1595200550/charterhacks/"+ imageID
 
     # sends GET request to the API to obtain the image
     response = requests.get(url)
@@ -31,10 +31,11 @@ def handle_image_id(imageID):
     # extract image
     imageData = response.content
 
-    imageFile = open("imageReceived.png", 'wb')     # open image
+    imageFile = open("melanoma.jpg", 'wb')     # open image
     imageFile.write(imageData)                      # write image
     imageFile.close()                               # close writer
 
-    image = Image.open("imageReceived.png")         # create Image object
+    image = Image.open("melanoma.jpg")         # create Image object
     image = resize_img(image)                       # resize image
+    image.show()
     return image                                    # return image object
