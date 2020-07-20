@@ -31,10 +31,10 @@ def handle_image_id(imageID):
     # extract image
     imageData = response.content
 
-    imageFile = open("image.jpg", 'wb')     # open image
+    imageFile = open("image.jpg", 'wb')        # open image
     imageFile.write(imageData)                 # write image
     imageFile.close()                          # close writer
 
-    image = Image.open("image.jpg")         # create Image object
+    image = Image.open("image.jpg")            # create Image object
     image = resize_img(image)                  # resize image
     return image                               # return image object
