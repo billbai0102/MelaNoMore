@@ -82,22 +82,32 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         handleSSLHandshake();
         requestCameraPermission();
 
+
         setContentView(R.layout.layout2);
 
-        btncapture = findViewById(R.id.btncapture);
+        //btncapture = findViewById(R.id.btncapture);
         mSurfaceView = findViewById(R.id.surface_camera);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(this);
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-        btncapture.setOnClickListener(new View.OnClickListener() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mCamera.takePicture(null, null, mPictureCallback);
+            }
+        }, 8000);
+
+
+        /*btncapture.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 //take picture here
                 mCamera.takePicture(null, null, mPictureCallback);
             }
-        });
+        });*/
     }
 
     Camera.PictureCallback mPictureCallback = new Camera.PictureCallback() {
@@ -108,8 +118,10 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             uploadImage2(bitmap);
             String file_path=saveToInternalSorage(bitmap);
             //Toast.makeText(getApplicationContext(),"Image stored succesfully at "+file_path,Toast.LENGTH_LONG).show();
-            ImageView img = findViewById(R.id.loading_gif);
-            img.setVisibility(View.VISIBLE);
+            //ImageView img = findViewById(R.id.loading_gif);
+            //img.setVisibility(View.VISIBLE);
+
+            displayResults("tester");
         }
     };
 
@@ -221,8 +233,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://446a70151a49.ngrok.io/getResults?imageID="+data;
-        //String url = "https://google.ca";
+        String url ="https://9cc5e5c415ae.ngrok.io/getResults?imageID="+data;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -273,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession arg1) {
-                    if (hostname.equalsIgnoreCase("yogta.ca") || hostname.equalsIgnoreCase("api.cloudinary.com") || hostname.equalsIgnoreCase("446a70151a49.ngrok.io") || hostname.equalsIgnoreCase("google.ca")) {    //ONLY ALLOW FROM MY DOMAIN
+                    if (hostname.equalsIgnoreCase("yogta.ca") || hostname.equalsIgnoreCase("api.cloudinary.com") || hostname.equalsIgnoreCase("9cc5e5c415ae.ngrok.io")) {    //ONLY ALLOW FROM MY DOMAIN
                         Log.d("RFT","Allowed");
                         return true;
                     } else {
@@ -352,6 +363,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             return false;
         }
         postData(ID_subset);
+
+        //ImageView img = findViewById(R.id.loading_gif);
+        //img.setVisibility(View.VISIBLE);
         return true;
     }
 
@@ -359,16 +373,19 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
         final Context contextPass = this;
 
+        ImageView img = findViewById(R.id.loading_gif);
+        img.setVisibility(View.VISIBLE);
+
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 ImageView img = findViewById(R.id.loading_gif);
                 img.setVisibility(View.INVISIBLE);
 
                 new AlertDialog.Builder(contextPass)
                         .setTitle("Results Processed")
-                        //.setMessage("The model determined that this is NOT Melanoma with a 95.7% confidence score.")
                         .setMessage(results)
 
                         // Specifying a listener allows you to take an action before dismissing the dialog.
@@ -384,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                         //.setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
             }
-        }, 2000);
+        }, 3000);
 
     }
 }
