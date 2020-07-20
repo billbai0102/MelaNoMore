@@ -1,3 +1,7 @@
+"""
+This is the NeuralNetwork class
+"""
+
 import torch
 from torch import nn
 import numpy as np
@@ -6,12 +10,15 @@ from torchsummary import summary
 
 
 class Net(nn.Module):
+
     def __init__(self):
         super(Net, self).__init__()
 
+        # loads hyperparameters.yaml into a dict
         with open('hyperparameters.yaml') as f:
             hp = yaml.safe_load(f)['hyperparameters']
 
+        # loads hyperparameters into individual variables
         channels, height, width = hp['input_shape']
         out_1, kernel_1, stride_1, padding_1 = hp['conv_1']
         out_2, kernel_2, stride_2, padding_2 = hp['conv_2']
@@ -21,6 +28,7 @@ class Net(nn.Module):
         out_6, kernel_6, stride_6, padding_6 = hp['conv_6']
         self.out_7, kernel_7, stride_7, padding_7 = hp['conv_7']
 
+        # features block - consists of convolutional layers and extracts key features
         self.features = nn.Sequential(
             # input layer
             nn.Conv2d(channels, out_1, kernel_size=kernel_1, stride=stride_1, padding=padding_1, bias=False)
@@ -76,10 +84,19 @@ class Net(nn.Module):
             , nn.AvgPool2d(7)
         )
 
+        # classifier block - consists of linear layer that converges to two classes
         self.classifier = nn.Sequential(
             nn.Linear(self.out_7 * 16, 2)
         )
 
+    '''
+    calculates size of convolution layer outputs
+    
+    :param h: height of input image
+    :param w: width of input image
+    :param conv: the convolution layer
+    :param pool: size of pooling layer
+    '''
     @classmethod
     def get_conv_size(h, w, conv: nn.Conv2d, pool=1):
         size = conv.kernel_size
@@ -87,16 +104,24 @@ class Net(nn.Module):
         padding = conv.padding
         dilation = conv.dilation
 
+        # calculates the size of the convolution layer
         h = np.floor((h + 2 * padding[0] - dilation[0] * (size[0] - 1) - 1) / stride[0] + 1) / pool
         w = np.floor((w + 2 * padding[1] - dilation[1] * (size[1] - 1) - 1) / stride[1] + 1) / pool
 
         return int(h), int(w)
 
+
+    '''
+    neural network's forward propagation method
+    
+    :param x: the input tensor that will be propagated throughout the network
+    '''
+    @staticmethod
     def forward(self, x):
-        x = self.features(x)
-        x = x.view(-1, self.out_7 * 16)
-        x = self.classifier(x)
-        return x
+        x = self.features(x)                # runs tensor through the features block
+        x = x.view(-1, self.out_7 * 16)     # flattens tensor
+        x = self.classifier(x)              # runs tensor through the classifier block
+        return x                            # returns the network's output
 
 
 if __name__ == '__main__':

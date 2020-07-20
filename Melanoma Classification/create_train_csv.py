@@ -1,7 +1,7 @@
-'''
+"""
 This script creates csvs for the train, validation, and test folders.
 It allows PyTorch to easily read in the data.
-'''
+"""
 
 # imports
 import pandas as pd
@@ -40,6 +40,7 @@ def create_csv(path, out_name, file_type=['.jpeg', '.jpg']):
 
     df = df.sample(frac=1).reset_index(drop=True)
     df.to_csv(f'./data/DermMel/{out_name}.csv')
+
 
 # creates csvs for each of the three directories.
 create_csv(train_path, 'train_labels')
