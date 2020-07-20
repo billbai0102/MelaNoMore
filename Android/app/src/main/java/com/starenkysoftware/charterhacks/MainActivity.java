@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         file_id = "charterhacks/"+ID_subset;
 
         //create a file to write bitmap data
-        File f = new File(getCacheDir(), "TEST_FILE.png");
+        File f = new File(getCacheDir(), "temp_file.png");
         try {
             f.createNewFile();
         }
