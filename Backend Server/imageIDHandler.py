@@ -32,10 +32,9 @@ def handle_image_id(imageID):
     imageData = response.content
 
     imageFile = open("melanoma.jpg", 'wb')     # open image
-    imageFile.write(imageData)                      # write image
-    imageFile.close()                               # close writer
+    imageFile.write(imageData)                 # write image
+    imageFile.close()                          # close writer
 
     image = Image.open("melanoma.jpg")         # create Image object
-    image = resize_img(image)                       # resize image
-    image.show()
-    return image                                    # return image object
+    image = resize_img(image)                  # resize image
+    return image                               # return image object
